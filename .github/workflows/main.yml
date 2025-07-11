@@ -1,0 +1,37 @@
+import { LightningElement } from 'lwc';
+
+export default class ListViewButtonInjector extends LightningElement {
+    renderedCallback() {
+        // Avoid duplicate buttons
+        if (document.querySelector('.custom-adv-filter-btn')) return;
+
+        // Locate the List View Header bar
+        const target = document.querySelector('[data-aura-class="forceListViewManagerHeader"]');
+
+        if (target) {
+            const btn = document.createElement('button');
+            btn.innerText = 'Advanced Filter';
+            btn.className = 'slds-button slds-button_brand custom-adv-filter-btn';
+            btn.style.marginLeft = '10px';
+
+            btn.onclick = () => {
+                // Dispatch a custom event or use pubsub/modal here
+                const modal = this.template.querySelector('.modal-launcher');
+                if (modal) modal.openModal();
+            };
+
+            target.appendChild(btn);
+        }
+    }
+}
+
+
+
+
+
+
+
+<template>
+    <!-- Hidden modal launcher if needed -->
+    <c:yourModalComponent class="modal-launcher"></c:yourModalComponent>
+</template>
