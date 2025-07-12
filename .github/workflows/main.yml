@@ -1,1 +1,37 @@
 
+renderedCallback() {
+    // Avoid duplicate buttons
+    if (document.querySelector('.custom-adv-filter-btn')) return;
+
+    // Try to inject the button after some delay if DOM not ready
+    const tryInject = () => {
+        console.log('HELLOO: Trying to inject button');
+
+        const target = document.querySelector('[data-aura-class="forceListViewManagerHeader"]');
+        if (!target) {
+            // Retry after delay
+            setTimeout(tryInject, 300); // Adjust timing if needed
+            return;
+        }
+
+        // Create and insert the button
+        const btn = document.createElement('button');
+        btn.innerText = 'Advanced Filter';
+        btn.className = 'slds-button slds-button_brand custom-adv-filter-btn';
+        btn.style.marginLeft = '10px';
+
+        btn.onclick = () => {
+            console.log('HELLOO2: Button clicked');
+            const modal = document.querySelector('.modal-launcher');
+            if (modal && modal.openModal) {
+                modal.openModal();
+            } else {
+                console.warn('Modal not found or openModal not defined');
+            }
+        };
+
+        target.appendChild(btn);
+    };
+
+    tryInject();
+}
